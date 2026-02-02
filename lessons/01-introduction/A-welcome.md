@@ -1,6 +1,6 @@
 ---
 title: "Welcome"
-description: "Introduction to the Permission Systems That Scale workshop, covering what you'll learn and build throughout the course."
+description: "Introduction to Permission Systems That Scale workshop, covering what you'll learn and build throughout the course."
 ---
 
 # Welcome to Permission Systems That Scale
