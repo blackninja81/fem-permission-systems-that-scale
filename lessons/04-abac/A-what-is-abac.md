@@ -97,7 +97,7 @@ ABAC is ideal when:
 
 ## When ABAC Adds Complexity
 
-ABAC isn't free—it comes with tradeoffs:
+ABAC isn't free. It comes with tradeoffs:
 
 - **More complex to reason about** than simple role checks
 - **Policies can become intricate** with many conditions

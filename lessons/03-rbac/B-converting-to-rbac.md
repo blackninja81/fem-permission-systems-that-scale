@@ -68,11 +68,11 @@ type Permission =
   | "document:delete"
 ```
 
-Using a union type means TypeScript will catch typos like `"documnet:create"` at compile time—a huge win over string literals scattered throughout your codebase.
+Using a union type means TypeScript will catch typos like `"documnet:create"` at compile time. A huge win over string literals scattered throughout your codebase.
 
 ### Part 2: Map Roles to Permissions
 
-Next, we create the lookup table—this is the heart of RBAC:
+Next, we create the lookup table. This is the heart of RBAC:
 
 ```typescript
 const permissionsByRole: Record<User["role"], Permission[]> = {
@@ -107,7 +107,7 @@ const permissionsByRole: Record<User["role"], Permission[]> = {
 }
 ```
 
-Now when requirements change—say, authors should be able to delete their own documents—you update **one place** instead of hunting through dozens of files.
+Now when requirements change, say authors should be able to delete their own documents, you update **one place** instead of hunting through dozens of files.
 
 ### Part 3: The `can` Function
 

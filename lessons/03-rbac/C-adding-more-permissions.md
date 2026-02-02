@@ -2,7 +2,7 @@
 title: "Adding More Permissions"
 ---
 
-Our RBAC system works great—until the business asks for "just a few more rules." Let's add some realistic permission requirements and see how RBAC handles them.
+Our RBAC system works great until the business asks for "just a few more rules." Let's add some realistic permission requirements and see how RBAC handles them.
 
 ## New Permission Requirements
 

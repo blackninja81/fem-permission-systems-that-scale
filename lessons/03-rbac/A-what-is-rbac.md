@@ -39,7 +39,7 @@ A typical RBAC implementation has three components:
 └─────────┘     └─────────┘     └──────────────────┘
 ```
 
-Alice (admin) can create and delete anything. Bob (viewer) can only read documents. Neither user has permissions defined directly—they inherit from their roles.
+Alice (admin) can create and delete anything. Bob (viewer) can only read documents. Neither user has permissions defined directly. They inherit from their roles.
 
 ## Why RBAC Works
 

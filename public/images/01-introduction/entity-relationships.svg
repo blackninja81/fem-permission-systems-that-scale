@@ -123,25 +123,25 @@
 
     <g transform="translate(0, 25)" font-family="system-ui, sans-serif" font-size="12">
       <circle cx="8" cy="-4" r="4" fill="#4A90D9" />
-      <text x="20" fill="#1a1a1a"><tspan font-weight="500">User.role</tspan> — determines base
+      <text x="20" fill="#1a1a1a"><tspan font-weight="500">User.role</tspan> - determines base
         permission level</text>
     </g>
 
     <g transform="translate(0, 45)" font-family="system-ui, sans-serif" font-size="12">
       <circle cx="8" cy="-4" r="4" fill="#3B9B6F" />
-      <text x="20" fill="#1a1a1a"><tspan font-weight="500">User.department</tspan> — scopes access
+      <text x="20" fill="#1a1a1a"><tspan font-weight="500">User.department</tspan> - scopes access
         to projects/documents</text>
     </g>
 
     <g transform="translate(480, 25)" font-family="system-ui, sans-serif" font-size="12">
       <circle cx="8" cy="-4" r="4" fill="#E67E22" />
-      <text x="20" fill="#1a1a1a"><tspan font-weight="500">Document.status</tspan> — affects what
+      <text x="20" fill="#1a1a1a"><tspan font-weight="500">Document.status</tspan> - affects what
         actions are allowed</text>
     </g>
 
     <g transform="translate(480, 45)" font-family="system-ui, sans-serif" font-size="12">
       <circle cx="8" cy="-4" r="4" fill="#888" />
-      <text x="20" fill="#1a1a1a"><tspan font-weight="500">Document.isLocked</tspan> — restricts
+      <text x="20" fill="#1a1a1a"><tspan font-weight="500">Document.isLocked</tspan> - restricts
         editing</text>
     </g>
   </g>

@@ -2,7 +2,7 @@
 title: "The Case for Better Architecture"
 ---
 
-Now that we've fixed the immediate security issues, let's reflect on what we've done—and why it's still not good enough.
+Now that we've fixed the immediate security issues, let's reflect on what we've done and why it's still not good enough.
 
 ## What We Fixed
 
@@ -29,7 +29,7 @@ if (
 }
 ```
 
-If we add a new department rule (e.g., "managers can access any department"), we need to find and update **every occurrence**. Miss one? Security vulnerability.
+If we add a new rule (e.g., "managers can access any department"), we need to find and update **every occurrence**. Miss one? Security vulnerability.
 
 ### 2. No Single Source of Truth
 
@@ -40,11 +40,11 @@ Where do you go to understand "who can create a document"? There's no clear answ
 - The UI conditionally renders buttons
 - The data access layer has a check
 
-Each place has its own version of the "truth." Which one is authoritative?
+Each place has its own version of the "truth."
 
 ### 3. Hard to Read Permission Logic
 
-Quick—what does this check actually mean?
+What does this check actually mean?
 
 ```typescript
 if (user.role !== "author" && user.role !== "admin") {
@@ -88,8 +88,5 @@ Before moving on, remember these principles:
 In the next section, we'll implement **Role-Based Access Control (RBAC)**. We'll create a permissions layer that:
 
 - Defines all permissions in one place
-- Uses role hierarchy to simplify checks
 - Provides helper functions for readable code
 - Makes adding new permissions straightforward
-
-The scattered checks we wrote in this section? They'll all be replaced with clean, centralized logic.

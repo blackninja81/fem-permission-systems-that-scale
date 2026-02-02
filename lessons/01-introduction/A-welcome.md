@@ -41,12 +41,6 @@ This workshop is designed for **fullstack web developers** who want to level up 
 
 This is a **hands-on, code-along workshop**. We'll spend most of our time:
 
-- **Live coding** — Building and refactoring permission systems together
-- **Discussing trade-offs** — Understanding when to use each approach
-- **Exploring edge cases** — Handling real-world permission scenarios
-
-The written materials serve as a reference you can return to after the workshop.
-
-## Let's Get Started
-
-Ready to build permission systems that actually scale? Let's begin by understanding the critical difference between authentication and authorization.
+- **Live coding**: Building and refactoring permission systems together
+- **Discussing trade-offs**: Understanding when to use each approach
+- **Exploring edge cases**: Handling real-world permission scenarios

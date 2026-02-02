@@ -32,28 +32,32 @@ There are multiple places where our permission checks are wrong.
 
 Here's an example of adding a missing permission check:
 
-```typescript
+```tsx
 // Before: No permission check!
-export default async function ProjectEditPage({ params }) {
-  const project = await getProjectById(params.projectId)
-  return <ProjectForm project={project} />
+export default async function DocumentDetailPage({ params }) {
+  const document = await getDocumentById(params.documentId)
+  return <DocumentDetails document={document} />
 }
 
 // After: Check user role before rendering
-export default async function ProjectEditPage({ params }) {
+export default async function DocumentDetailPage({ params }) {
   const user = await getCurrentUser()
+  const project = await getProjectById(params.projectId)
 
-  // Only admins can edit projects
-  if (user?.role !== "admin") {
-    return redirect("/")
+  // Permission check
+  if (
+    user == null ||
+    (user.role !== "admin" &&
+      project.department != null &&
+      user.department !== project.department)
+  ) {
+    return redirect(`/`)
   }
 
-  const project = await getProjectById(params.projectId)
-  return <ProjectForm project={project} />
+  const document = await getDocumentById(params.documentId)
+  return <DocumentDetails document={document} />
 }
 ```
-
-Notice the pattern: check permissions **before** fetching data or rendering the page.
 
 ## The Problem With This System
 
@@ -62,7 +66,7 @@ As we add these checks, notice how we're:
 - Copying and pasting the same permission checks everywhere
 - Hoping we don't make typos or forget a condition
 
-This is exactly why we need to **centralize** this logic. If our department permission rule changes, we now have to update it in **every single file**.
+This is exactly why we need to **centralize** this logic. If our permission rule changes, we now have to update it in **every single file**.
 
 ## Branch Checkpoint
 

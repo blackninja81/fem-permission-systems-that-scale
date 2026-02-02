@@ -115,6 +115,6 @@ Each step solved real problems while introducing patterns that scale.
 
 ## Thank You!
 
-You now have the knowledge to build permission systems that grow with your application. Whether you choose RBAC, ABAC, ReBAC, or a combination—you understand the tradeoffs and can make informed decisions.
+You now have the knowledge to build permission systems that grow with your application. Whether you choose RBAC, ABAC, ReBAC, or a combination, you understand the tradeoffs and can make informed decisions.
 
 Happy coding! 🎉

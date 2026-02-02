@@ -1,6 +1,6 @@
 ---
 title: "Project Overview"
-description: "Understanding the demo application's data model, user roles, and how the UI flows together — the foundation for our permission system work."
+description: "Understanding the demo application's data model, user roles, and how the UI flows together, the foundation for our permission system work."
 ---
 
 # Project Overview

@@ -2,7 +2,7 @@
 title: "Converting to ABAC"
 ---
 
-Let's convert our RBAC system to ABAC. This first pass will have **identical functionality**—we're just restructuring the code to use an attribute-based model instead of a role-based one.
+Let's convert our RBAC system to ABAC. This first pass will have **identical functionality**. We're just restructuring the code to use an attribute-based model instead of a role-based one.
 
 ## The Goal
 
@@ -142,7 +142,7 @@ class PermissionBuilder {
 
 ### The `can()` Method
 
-The `can()` method is where the magic happens—it evaluates conditions against actual data:
+The `can()` method is where the magic happens. It evaluates conditions against actual data:
 
 ```typescript
 build() {
@@ -279,4 +279,4 @@ git checkout 5-abac-basic
 
 ## What's Next
 
-This basic ABAC system has the same functionality as our RBAC + helpers approach, just with cleaner architecture. In the next lesson, we'll add **advanced features** that ABAC makes possible—like field-level permissions and automatic query filtering.
+This basic ABAC system has the same functionality as our RBAC + helpers approach, just with cleaner architecture. In the next lesson, we'll add **advanced features** that ABAC makes possible like field-level permissions and automatic query filtering.
