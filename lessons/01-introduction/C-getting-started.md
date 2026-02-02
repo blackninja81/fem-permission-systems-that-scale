@@ -11,10 +11,10 @@ Let's get the workshop project running on your machine. We'll clone the reposito
 
 Make sure you have the following installed:
 
-- **Node.js** v20 or higher
-- **Docker** (for running PostgreSQL)
-- **Git**
-- A code editor (VS Code recommended)
+- **Node.js** v20 or higher ([download](https://nodejs.org/en/download))
+- **Docker** (for running PostgreSQL) ([download](https://docs.docker.com/desktop/))
+- **Git** ([download](https://git-scm.com/install/))
+- A code editor (VS Code recommended) ([download](https://code.visualstudio.com/download))
 
 ## 1. Clone the Repository
 
@@ -54,7 +54,7 @@ Make sure your `.env` file contains the following variables:
 # .env
 DB_PASSWORD=password
 DB_USER=postgres
-DB_NAME=permissions-demo
+DB_NAME=demo-app-2
 DB_HOST=localhost
 DB_PORT=5432
 ```
@@ -74,12 +74,6 @@ Populate the database with sample users, projects, and documents:
 ```bash
 npm run db:seed
 ```
-
-This creates:
-
-- **8 users** across two departments (Engineering and Marketing)
-- **5 projects** with different department assignments
-- **15+ documents** with various statuses and ownership
 
 ## 7. Start the Development Server
 

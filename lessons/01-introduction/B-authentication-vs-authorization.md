@@ -19,20 +19,9 @@ Think of it like entering a secure building:
 - **Authentication** is showing your ID badge at the entrance, proving you are who you claim to be
 - **Authorization** is the access levels on your badge, determining which floors and rooms you can enter
 
-## Authentication Is (Mostly) Solved
+## Authorization Is Where Most Complexity Lives
 
-Authentication has well-established patterns and battle-tested solutions:
-
-- **OAuth/OIDC** providers (Google, GitHub, etc.)
-- **Managed services** (Auth0, Clerk, Firebase Auth)
-- **Session management** libraries
-- **JWT** standards
-
-For most applications, you can integrate an authentication provider and move on. The hard problems — password hashing, session security, MFA — are handled for you.
-
-## Authorization Is Where Complexity Lives
-
-Authorization is a fundamentally different challenge because:
+Authorization is generally more complex because:
 
 ### 1. It's Deeply Tied to Business Logic
 
@@ -80,11 +69,18 @@ This workshop is **100% about authorization**. We assume you already have authen
 
 Our challenge is: given a known user, how do we efficiently and maintainably determine what they're allowed to do?
 
-## Key Takeaways
+## Goals of a Permission System
 
-- **Authentication** verifies identity; **authorization** controls access
-- Authentication is largely a solved problem with good tooling
-- Authorization is application-specific and requires careful design
-- Poor authorization creates both security risks and maintenance nightmares
+Before diving into the code, it's important to understand what a well-designed permission system should look like:
 
-Next, let's preview the different authorization systems we'll explore in this workshop.
+- **Impossible to access unauthorized data**: This means all data access should go through auth checks before any data is returned or modified.
+
+- **Single source of truth**: Permission logic should be centralized in one place, not scattered throughout your codebase. This makes it easier to audit, update, and reason about.
+
+- **Automatic enforcement**: Authorization should be automatically applied whenever data is accessed or mutated. Developers shouldn't need to remember to add permission checks manually. They should happen by default.
+
+- **Consistent across frontend and backend**: The same permission rules should produce the same results whether evaluated on the client or server. This prevents confusing UX where buttons appear enabled but actions fail.
+
+- **Never trust the client**: All permission checks must be enforced on the server. Client-side checks are only for UX (hiding buttons, disabling fields) and never for actual security.
+
+- **Fail closed**: When in doubt, deny access. If something goes wrong or a check is missing, the default should be to block access rather than allow it.

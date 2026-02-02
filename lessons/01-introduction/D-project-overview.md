@@ -52,24 +52,6 @@ Documents are the core content of the application:
 | `creatorId`      | The user who created the document           |
 | `lastEditedById` | The user who last modified the document     |
 
-## User Roles
-
-The application has four roles with increasing levels of access:
-
-| Role       | Intended Purpose                                |
-| ---------- | ----------------------------------------------- |
-| **Viewer** | Can view documents but not modify anything      |
-| **Editor** | Can edit existing documents                     |
-| **Author** | Can create new documents and edit existing ones |
-| **Admin**  | Full access to everything                       |
-
-## Department Scoping
-
-Users and projects belong to departments. The intended behavior is:
-
-- Users should primarily see and interact with **their department's projects**
-- Some projects have `department: null`, meaning they're **cross-department** and all users can access them
-
 ## Desired Permissions
 
 Right now, the application tries to follow the below set of permissions:
@@ -97,3 +79,5 @@ Right now, the application tries to follow the below set of permissions:
 ## Next Steps
 
 The next thing we need to work on is fixing the bugs in our permission system and making it more organized to prevent future bugs and make extensions easier in the future.
+
+All current bugs are marked with a `FIX:` comment and all permissions checks have a `PERMISSION:` comment above them.
