@@ -29,12 +29,6 @@ Each upgrade will demonstrate the strengths and limitations of different approac
 
 This is a **hands-on, code-along workshop**. We'll spend most of our time:
 
-<<<<<<< HEAD
-- **Live coding**: Building and refactoring permission systems together
-- **Discussing trade-offs**: Understanding when to use each approach
-- **Exploring edge cases**: Handling real-world permission scenarios
-=======
 - **Live coding** — Building and refactoring permission systems together
 - **Discussing trade-offs** — Understanding when to use each approach
 - **Exploring edge cases** — Handling real-world permission scenarios
->>>>>>> 58892095c3f5658b002e84c79ed1420ed8d05d45
