@@ -11,7 +11,6 @@ RBAC is the right choice when your permissions are:
 | Characteristic                  | Example                                                        |
 | ------------------------------- | -------------------------------------------------------------- |
 | **Role-centric**                | "Admins can delete, viewers can read"                          |
-| **Static**                      | Permissions don't change based on context                      |
 | **Coarse-grained**              | A few roles cover all use cases                                |
 | **Limited Attribute Awareness** | Permissions depend on few or no resource attributes or context |
 
@@ -23,7 +22,7 @@ RBAC breaks down when permissions depend on:
 
 As soon as you need to create multiple permutations of permissions for different attributes (e.g., ownership, document status), RBAC starts to struggle. You end up creating very specific permissions like `"document:update:own-unlocked-draft"` to cover each combination which quickly becomes unmanageable.
 
-### 5. Environmental Factors
+### 2. Environmental Factors
 
 With RBAC it is impossible to take into consideration environmental factors such as time of day, location, or other contextual information that may play a role in determining access. For example, a user may only be able to push code to production during certain hours or from specific IP addresses.
 
@@ -91,12 +90,9 @@ Consider moving beyond RBAC when you find yourself:
 3. **Duplicating attribute checks across the codebase**
    - The same `document.isLocked` check appearing everywhere
 
-4. **Struggling to explain permissions to new team members**
-   - "Well, editors can update documents, except when..."
-
-5. **Needing different permissions for the same action based on context**
-   - Same "edit" action has different rules for drafts vs published
+4. **Needing different permissions for the same action based on environment**
+   - Same "edit" action has different rules on weekday vs weekend
 
 ## The Path Forward
 
-In the next section, we'll implement **ABAC** and see how it elegantly handles the requirements that broke our RBAC system. ABAC is more work to set up initially, but it scales much better for complex, attribute-driven access control scenarios.
+In the next section, we'll implement **ABAC** and see how it elegantly handles the requirements that broke our RBAC system. ABAC is much more work to set up initially, but it scales better for complex, attribute-driven access control scenarios.

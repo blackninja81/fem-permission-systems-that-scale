@@ -2,17 +2,17 @@
 title: "What is RBAC?"
 ---
 
-**Role-Based Access Control (RBAC)** is the most common permission system you'll encounter. If you've ever assigned a user to an "admin" or "editor" role, you've used RBAC.
+**Role-Based Access Control (RBAC)** is the most common permission system you'll encounter. If you've ever assigned a user to an "admin" or "editor" role, you've used a version of RBAC.
 
 ## The Core Concept
 
-RBAC is built on a simple idea: **permissions are assigned to roles, not users**. Users are then assigned roles, and they inherit all permissions associated with those roles.
+RBAC is built on a simple idea: **permissions are assigned to roles, and roles are assigned to users**.
 
 ```text
 User → Role → Permissions
 ```
 
-Instead of asking "Can this user do X?", you ask "Does this user's role have permission X?"
+This differs from our current implementation since we are defining specific permissions that each role has instead of adhoc if checks spread throughout our codebase.
 
 ## The RBAC Model
 
@@ -24,46 +24,39 @@ A typical RBAC implementation has three components:
 | **Roles**       | Named groups of permissions            | admin, editor, viewer           |
 | **Permissions** | Specific actions that can be performed | create:document, delete:project |
 
-## How Permissions Flow
-
-```text
-┌─────────┐     ┌─────────┐     ┌──────────────────┐
-│  Alice  │─────│  admin  │─────│ create:document  │
-└─────────┘     └─────────┘     │ delete:document  │
-                                │ create:project   │
-                                │ delete:project   │
-                                └──────────────────┘
-
-┌─────────┐     ┌─────────┐     ┌──────────────────┐
-│   Bob   │─────│ viewer  │─────│ read:document    │
-└─────────┘     └─────────┘     └──────────────────┘
-```
-
-Alice (admin) can create and delete anything. Bob (viewer) can only read documents. Neither user has permissions defined directly. They inherit from their roles.
+![RBAC Flow](/fem-permission-systems-that-scale/images/03-rbac/rbac-flow.svg)
 
 ## Why RBAC Works
 
-RBAC became popular for good reasons:
+As a developer, RBAC offers significant advantages over scattering ad-hoc permission checks throughout your codebase:
 
-### 1. Conceptually Simple
+### 1. Centralized Permission Logic
 
-Everyone understands roles. "Make Bob an admin" is clearer than "Grant Bob create:document, delete:document, update:document, create:project..."
+Instead of hunting through dozens of files to find every `if (user.role === "admin")` check, all your permission logic lives in one place.
 
-### 2. Easy to Manage
+### 2. Single Point of Change
 
-When permissions change, you update the role once. All users with that role automatically get the new permissions.
+When business requirements change (and they will), you update the role definition once. Compare this to finding and updating every `if (user.role === "editor" || user.role === "admin")` scattered across your codebase.
 
-### 3. Auditable
+### 3. Cleaner, More Readable Code
 
-"Who has delete access?" → "Everyone with the admin role" → Easy to audit.
+Your application code becomes about _what_ you're checking, not _how_:
 
-### 4. Scales with Users
+```typescript
+// Ad-hoc: What does this even mean?
+if (user.role === "admin" || user.role === "editor")
 
-Adding a new user? Assign them a role. Done. No need to configure individual permissions.
+// RBAC: Clear intent
+if (can(user, "document:update"))
+```
+
+### 4. Reduced Bugs
+
+Ad-hoc checks are error-prone. Forget one check? Security hole. Copy-paste the wrong condition? Security hole. With RBAC, the logic is defined once and reused everywhere.
 
 ## RBAC in Code
 
-A basic RBAC implementation looks like this:
+A basic RBAC implementation looks something like this:
 
 ```typescript
 // Define your permissions
@@ -78,7 +71,7 @@ type Permission =
   | "project:delete"
 
 // Map roles to permissions
-const permissionsByRole: Record<string, Permission[]> = {
+const permissionsByRole: Record<UserRole, Permission[]> = {
   admin: [
     "document:create",
     "document:read",
@@ -94,8 +87,8 @@ const permissionsByRole: Record<string, Permission[]> = {
 }
 
 // Check if a user can perform an action
-function can(user: { role: string }, permission: Permission): boolean {
-  return permissionsByRole[user.role]?.includes(permission) ?? false
+function can(user: { role: UserRole }, permission: Permission) {
+  return permissionsByRole[user.role].includes(permission)
 }
 ```
 
@@ -111,38 +104,35 @@ if (!can(user, "project:delete")) {
 }
 ```
 
-## Role Hierarchies (Optional Enhancement)
+### Implementation
 
-Some RBAC implementations include **role hierarchies**, where roles inherit from other roles:
+Let's implement a simple RBAC system into our project.
+
+## What We Gain
+
+After this refactor:
+
+| Benefit                    | Description                                           |
+| -------------------------- | ----------------------------------------------------- |
+| **Single source of truth** | All permissions defined in one place                  |
+| **Readable code**          | `can(user, "document:create")` is self-documenting    |
+| **Type safety**            | TypeScript ensures we only use valid permission names |
+| **Easy updates**           | Change a role's permissions in one file               |
+
+## Branch Checkpoint
+
+After completing this conversion, your code should match:
 
 ```text
-admin → author → editor → viewer
+Branch: 3-basic-rbac
 ```
 
-In this model:
+Run the following to sync up:
 
-- `admin` has all permissions of `author` (plus admin-specific ones)
-- `author` has all permissions of `editor` (plus author-specific ones)
-- `editor` has all permissions of `viewer` (plus editor-specific ones)
+```bash
+git checkout 3-basic-rbac
+```
 
-This may seem convenient, but it drastically reduces the flexibility of your RBAC system and usually doesn't scale well.
+## What's Next
 
-## When RBAC Shines
-
-RBAC is ideal when:
-
-- Permissions are **role-based** (not resource-specific)
-- You have a **small, fixed set of roles**
-- Permission logic is **straightforward** (no complex conditions)
-- You need something **quick to implement** and **easy to understand**
-
-## When RBAC Struggles
-
-RBAC starts to break down when:
-
-- Permissions depend on **resource attributes** (e.g., "can edit documents they created")
-- Permissions depend on **relationships** (e.g., "can edit documents in projects they own")
-- You have **many roles** with slight permission variations
-- Business rules are **complex and context-dependent**
-
-We'll experience these limitations firsthand later in this section.
+Our RBAC system works great for the current permissions. But what happens when we need to add more complex rules?

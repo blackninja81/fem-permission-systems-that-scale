@@ -67,6 +67,7 @@ To solve this in RBAC, we need to create very specific permissions:
 ```typescript
 type Permission =
   // ...existing permissions...
+  | "document:update:all"
   | "document:update:unlocked"
   | "document:update:own-unlocked-draft"
   | "document:read:all"
@@ -79,7 +80,7 @@ Then assign them to roles:
 ```typescript
 const permissionsByRole = {
   admin: [
-    "document:update:unlocked", // Can edit any unlocked doc
+    "document:update:all", // Can edit any document
     "document:read:all",
     // ...
   ],
@@ -103,7 +104,9 @@ export function canUpdateDocument(
   if (user == null) return false
 
   return (
-    // Admins/editors: can edit any unlocked document
+    // Admins: can edit any document
+    can(user, "document:update:all") ||
+    // Editors: can edit any unlocked document
     (can(user, "document:update:unlocked") && !document.isLocked) ||
     // Authors: only their own, unlocked, draft documents
     (can(user, "document:update:own-unlocked-draft") &&
@@ -120,7 +123,7 @@ Notice the problems:
 
 ### 1. Permissions Exploded In Complexity
 
-We now have 3 permissions to read a document, 2 for updating, and 3 for reading a project. This problem also grows exponentially as more attributes and conditions are added since if we needed to check just 2 more attributes on a document we would need to create permissions for every permutation of those attributes.
+We now have 3 permissions to read a document, 3 for updating, and 3 for reading a project. This problem also grows exponentially as more attributes and conditions are added since if we needed to check just 2 more attributes on a document we would need to create permissions for every permutation of those attributes.
 
 ### 2. Logic Scattered Again
 
