@@ -51,26 +51,25 @@ export async function createDocumentService(
   projectId: string,
   data: DocumentFormValues,
 ) {
-  // Step 1: Authentication - who is making this request?
   const user = await getCurrentUser()
   if (user == null) throw new Error("Unauthenticated")
 
-  // Step 2: Authorization - can they perform this action?
+  // Step 1: Authorization - can they perform this action?
   const permissions = await getUserPermissions()
   if (!permissions.can("document", "create")) throw new AuthorizationError()
 
-  // Step 3: Field filtering - only allow permitted fields
+  // Step 2: Field filtering - only allow permitted fields
   const restrictedData = permissions.pickPermittedFields(
     "document",
     "create",
     data,
   )
 
-  // Step 4: Validation - is the data valid?
+  // Step 3: Validation - is the data valid?
   const result = documentSchema.safeParse(restrictedData)
   if (!result.success) throw new Error("Invalid data")
 
-  // Step 5: Execute - perform the actual operation
+  // Step 4: Execute - perform the actual operation
   return await createDocument({
     ...result.data,
     creatorId: user.id,
@@ -82,7 +81,7 @@ export async function createDocumentService(
 
 In the above example we are checking the user's permission to create a document and ensuring only the fields they are allowed to modify are used for the creation. This centralizes authorization logic and prevents unauthorized field modifications.
 
-Our action is now a simple wrapper that calls this service function and handles any errors or responses appropriately:
+We can then update our action to be a simple wrapper that calls this service function and handles any errors or responses appropriately:
 
 ```typescript
 export async function createDocumentAction(
@@ -109,7 +108,7 @@ All that complexity lives in the service.
 
 ## Refactoring Page Components
 
-Pages delegate to services and no longer include any direct permission checks:
+Pages delegate to services and now no longer require any direct permission checks:
 
 ```typescript
 export default async function ProjectDocumentsPage({
@@ -130,34 +129,9 @@ export default async function ProjectDocumentsPage({
 }
 ```
 
-## Architecture Benefits
-
-### 1. Single Responsibility
-
-| Layer        | Responsibility                          |
-| ------------ | --------------------------------------- |
-| **Pages**    | Routing, layout, calling services       |
-| **Actions**  | Form handling, validation, revalidation |
-| **Services** | Business logic, authorization           |
-| **DAL**      | Pure database operations                |
-
-This is very important since now you can use the data access layer to get data without having to worry about authorization logic or user context since many times in your application you may want to get all records regardless of the current user's permissions for specific business logic.
-
-### 2. Testability
-
-Since our data access layer, actions, and ui are no longer tied to the user or permissions we can easily test those layers in isolation. It is also easier to test our authorization logic since it all lives in one place.
-
-### 3. Security by Default
-
-As long as all calls go through the service layer it is impossible to accidentally bypass authorization checks or incorrectly code an authorization check since it is all handled automatically by the services layer.
-
-### 4. Efficient Queries
-
-By converting our auth permissions to a database query we are able to leverage the database's query engine to efficiently filter results based on the user's permissions, rather than fetching all data and filtering in application code.
-
 ## Converting Permissions to Database Queries
 
-The key insight is that ABAC conditions can become `WHERE` clauses:
+Since our ABAC conditions are just JavaScript objects of simple conditional checks, we can easily convert them into SQL `WHERE` clauses:
 
 ![ABAC to SQL](/fem-permission-systems-that-scale/images/04-abac/abac-to-sql.svg)
 
@@ -169,9 +143,9 @@ This is powerful because:
 - The database does the filtering (efficient!)
 - No chance of data leaks from forgetting a filter
 
-## Live Coding Exercise
+## Implementation
 
-We'll refactor the codebase to:
+Let's fully implement these features:
 
 1. Create `src/services/documents.ts` and `src/services/projects.ts`
 2. Implement `toDrizzleWhere()` for automatic query generation
@@ -179,9 +153,40 @@ We'll refactor the codebase to:
 4. Update page components to use services
 5. Remove auth code from actions and DAL
 
+## Architecture Benefits
+
+### 1. Single Responsibility
+
+| Layer        | Responsibility                    |
+| ------------ | --------------------------------- |
+| **Pages**    | Routing, layout, calling services |
+| **Actions**  | Redirection, error handling       |
+| **Services** | Business logic, authorization     |
+| **DAL**      | Pure database operations          |
+
+This is very important since now you can use the data access layer to get data without having to worry about authorization logic or user context since many times in your application you may want to get all records regardless of the current user's permissions for specific business logic.
+
+### 2. Testability
+
+Since our data access layer is no longer tied to the user or permissions we can easily test it in isolation. It is also easier to test our authorization logic since it all lives in one place.
+
+### 3. Security by Default
+
+As long as all calls go through the service layer it is impossible to accidentally bypass authorization checks or incorrectly code an authorization check since it is all handled automatically by the services layer.
+
+### 4. Efficient Queries
+
+By converting our auth permissions to a database query we are able to leverage the database's query engine to efficiently filter results based on the user's permissions, rather than fetching all data and filtering in application code.
+
 ## Branch Checkpoint
 
 After completing this lesson, your code should match:
+
+```text
+Branch: 6-abac-advanced
+```
+
+Run the following to sync up:
 
 ```bash
 git checkout 6-abac-advanced

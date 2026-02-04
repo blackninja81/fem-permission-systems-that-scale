@@ -85,6 +85,38 @@ const permissions = getUserPermissions(user)
 permissions.can("document", "update", document) // Checks all conditions!
 ```
 
+### Implementation
+
+Let's implement a simple ABAC system into our project. This system will follow the exact same policies of our current RBAC system.
+
+## What We Gain
+
+| Benefit                  | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| **Unified API**          | One `can()` function for all checks                          |
+| **Declarative policies** | Conditions describe what's allowed                           |
+| **No helper functions**  | No more `canUpdateDocument`, `canReadProject`, etc.          |
+| **Type safety**          | TypeScript enforces valid resources, actions, and conditions |
+| **Composable**           | Easy to add new conditions without new permission strings    |
+
+## Branch Checkpoint
+
+After completing this conversion, your code should match:
+
+```text
+Branch: 5-abac-basic
+```
+
+Run the following to sync up:
+
+```bash
+git checkout 5-abac-basic
+```
+
+## What's Next
+
+This basic ABAC system has the same functionality as our RBAC + helpers approach, just with cleaner architecture. In the next lesson, we'll add **advanced features** that ABAC makes possible like field-level permissions and automatic query filtering.
+
 ## When ABAC Shines
 
 ABAC is ideal when:
