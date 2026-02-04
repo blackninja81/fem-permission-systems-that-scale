@@ -21,10 +21,18 @@ Make sure you have the following installed:
 Clone the workshop repository and checkout the starting branch:
 
 ```bash
+git clone git@github.com:WebDevSimplified/fem-permission-systems-that-scale-demo-project.git
+
+cd fem-permission-systems-that-scale-demo-project
+git checkout 1-basic-permissions
+```
+
+or
+
+```bash
 git clone https://github.com/WebDevSimplified/fem-permission-systems-that-scale-demo-project.git
 
 cd fem-permission-systems-that-scale-demo-project
-
 git checkout 1-basic-permissions
 ```
 
