@@ -178,8 +178,14 @@ This approach adds a small overhead but makes consuming CASL permissions easier.
 
 After completing this lesson, your code should match:
 
+```text
+Branch: 8-casl
+```
+
+Run the following to sync up:
+
 ```bash
-git checkout 7-casl
+git checkout 8-casl
 ```
 
 ## Summary

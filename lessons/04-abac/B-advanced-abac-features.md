@@ -140,11 +140,11 @@ This is powerful because:
 After completing this lesson, your code should match:
 
 ```text
-Branch: 6-abac-advanced
+Branch: 7-abac-advanced
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 6-abac-advanced
+git checkout 7-abac-advanced
 ```

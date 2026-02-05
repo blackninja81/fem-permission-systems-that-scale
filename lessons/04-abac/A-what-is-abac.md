@@ -108,13 +108,13 @@ The only additional changes we will make is adding a few database optimizations 
 After completing this conversion, your code should match:
 
 ```text
-Branch: 5-abac-basic
+Branch: 6-abac-basic
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 5-abac-basic
+git checkout 6-abac-basic
 ```
 
 ## What's Next

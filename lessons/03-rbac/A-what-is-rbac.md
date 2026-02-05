@@ -124,13 +124,13 @@ After this refactor:
 After completing this conversion, your code should match:
 
 ```text
-Branch: 3-basic-rbac
+Branch: 4-basic-rbac
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 3-basic-rbac
+git checkout 4-basic-rbac
 ```
 
 ## What's Next
