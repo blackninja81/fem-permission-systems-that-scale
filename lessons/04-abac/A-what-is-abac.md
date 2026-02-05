@@ -89,15 +89,19 @@ permissions.can("document", "update", document) // Checks all conditions!
 
 Let's implement a simple ABAC system into our project. This system will follow the exact same policies of our current RBAC system.
 
+The only additional changes we will make is adding a few database optimizations and finally ensuring that users can only access documents within projects they have access to (including creation).
+
 ## What We Gain
 
-| Benefit                  | Description                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| **Unified API**          | One `can()` function for all checks                          |
-| **Declarative policies** | Conditions describe what's allowed                           |
-| **No helper functions**  | No more `canUpdateDocument`, `canReadProject`, etc.          |
-| **Type safety**          | TypeScript enforces valid resources, actions, and conditions |
-| **Composable**           | Easy to add new conditions without new permission strings    |
+| Benefit                    | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| **Unified API**            | One `can()` function for all checks                          |
+| **Declarative policies**   | Conditions describe what's allowed                           |
+| **No helper functions**    | No more `canUpdateDocument`, `canReadProject`, etc.          |
+| **Type safety**            | TypeScript enforces valid resources, actions, and conditions |
+| **Composable**             | Easy to add new conditions without new permission strings    |
+| **Database Optimizations** | Caching saves repeated queries and improves performance      |
+| **Document Policies**      | Documents are correctly limited to the user's access         |
 
 ## Branch Checkpoint
 
@@ -115,35 +119,4 @@ git checkout 5-abac-basic
 
 ## What's Next
 
-This basic ABAC system has the same functionality as our RBAC + helpers approach, just with cleaner architecture. In the next lesson, we'll add **advanced features** that ABAC makes possible like field-level permissions and automatic query filtering.
-
-## When ABAC Shines
-
-ABAC is ideal when:
-
-- Permissions depend on **resource attributes** (status, ownership, flags)
-- Permissions depend on **relationships** (creator, team member, project owner)
-- You need **fine-grained control** over specific fields
-- Business rules are **complex and context-dependent**
-- You want a **single, consistent API** for all permission checks
-
-## When ABAC Adds Complexity
-
-ABAC isn't free. It comes with tradeoffs:
-
-- **More complex to reason about** than simple role checks
-- **Policies can become intricate** with many conditions
-- **Performance considerations** when checking many conditions
-- **Database queries** may need to incorporate permission filters
-- **Type safety** requires careful design
-
-## Our Implementation Plan
-
-In the upcoming lessons, we'll:
-
-1. **Convert** our RBAC system to a basic ABAC system (same functionality, better architecture)
-2. **Add advanced features** like field-level permissions
-3. **Create a services layer** that centralizes all authorization logic
-4. **Convert permissions to database queries** for efficient filtering
-
-Let's start by building a clean ABAC foundation.
+This basic ABAC system has the same functionality as our RBAC + helpers approach, just with cleaner architecture. In the next lessons, we'll add **advanced features** that ABAC makes possible like field-level permissions and automatic query filtering.

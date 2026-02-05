@@ -2,7 +2,7 @@
 title: "Clean Architecture: The Services Layer"
 ---
 
-Our ABAC system works, but authorization logic is scattered everywhere. Let's fix that by introducing a **services layer** that centralizes all permission checks.
+Our permission system works, but authorization logic is scattered everywhere. Let's fix that by introducing a **services layer** that centralizes many permission checks.
 
 ## The Problem
 
@@ -37,7 +37,7 @@ We'll create a dedicated layer for business logic which includes authorization c
 ├── 📁 services/        ← NEW: All auth lives here
 │   ├── documents.ts
 │   └── projects.ts
-├── 📁 actions/         ← Just validates & calls services
+├── 📁 actions/         ← Just calls services and handles errors
 ├── 📁 dal/             ← Just database access
 └── 📁 app/             ← Just UI concerns
 ```
@@ -58,18 +58,11 @@ export async function createDocumentService(
   const permissions = await getUserPermissions()
   if (!permissions.can("document", "create")) throw new AuthorizationError()
 
-  // Step 2: Field filtering - only allow permitted fields
-  const restrictedData = permissions.pickPermittedFields(
-    "document",
-    "create",
-    data,
-  )
-
-  // Step 3: Validation - is the data valid?
-  const result = documentSchema.safeParse(restrictedData)
+  // Step 2: Validation - is the data valid?
+  const result = documentSchema.safeParse(data)
   if (!result.success) throw new Error("Invalid data")
 
-  // Step 4: Execute - perform the actual operation
+  // Step 3: Execute - perform the actual operation
   return await createDocument({
     ...result.data,
     creatorId: user.id,
@@ -79,7 +72,7 @@ export async function createDocumentService(
 }
 ```
 
-In the above example we are checking the user's permission to create a document and ensuring only the fields they are allowed to modify are used for the creation. This centralizes authorization logic and prevents unauthorized field modifications.
+In the above example we are checking the user's permission to create a document and validating the data. This centralizes authorization logic and prevents unauthorized field modifications.
 
 We can then update our action to be a simple wrapper that calls this service function and handles any errors or responses appropriately:
 
@@ -101,14 +94,14 @@ export async function createDocumentAction(
 Notice what's **not** in the action:
 
 - No `if (!canUpdate)` checks
-- No manual field filtering
+- No field validation
 - No permission imports
 
 All that complexity lives in the service.
 
 ## Refactoring Page Components
 
-Pages delegate to services and now no longer require any direct permission checks:
+Pages delegate to services and now mostly no longer require any direct permission checks:
 
 ```typescript
 export default async function ProjectDocumentsPage({
@@ -129,29 +122,14 @@ export default async function ProjectDocumentsPage({
 }
 ```
 
-## Converting Permissions to Database Queries
-
-Since our ABAC conditions are just JavaScript objects of simple conditional checks, we can easily convert them into SQL `WHERE` clauses:
-
-![ABAC to SQL](/fem-permission-systems-that-scale/images/04-abac/abac-to-sql.svg)
-
-This can get complicated when dealing with multiple conditions and various combinations of permissions, but once you get the base layer down adding new conditions is pretty simple.
-
-This is powerful because:
-
-- We only fetch data the user can see
-- The database does the filtering (efficient!)
-- No chance of data leaks from forgetting a filter
-
 ## Implementation
 
 Let's fully implement these features:
 
 1. Create `src/services/documents.ts` and `src/services/projects.ts`
-2. Implement `toDrizzleWhere()` for automatic query generation
-3. Refactor actions to use services
-4. Update page components to use services
-5. Remove auth code from actions and DAL
+2. Refactor actions to use services
+3. Update page components to use services
+4. Remove auth code from actions and DAL
 
 ## Architecture Benefits
 
@@ -168,44 +146,22 @@ This is very important since now you can use the data access layer to get data w
 
 ### 2. Testability
 
-Since our data access layer is no longer tied to the user or permissions we can easily test it in isolation. It is also easier to test our authorization logic since it all lives in one place.
+Since our data access layer is no longer tied to the user or permissions we can easily test it in isolation. It is also easier to test our authorization logic since it mostly lives in one place.
 
 ### 3. Security by Default
 
 As long as all calls go through the service layer it is impossible to accidentally bypass authorization checks or incorrectly code an authorization check since it is all handled automatically by the services layer.
-
-### 4. Efficient Queries
-
-By converting our auth permissions to a database query we are able to leverage the database's query engine to efficiently filter results based on the user's permissions, rather than fetching all data and filtering in application code.
 
 ## Branch Checkpoint
 
 After completing this lesson, your code should match:
 
 ```text
-Branch: 6-abac-advanced
+Branch: 3-add-service-layer
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 6-abac-advanced
+git checkout 3-add-service-layer
 ```
-
-## Summary
-
-The services layer pattern:
-
-- **Centralizes** all authorization in one place
-- **Converts** ABAC conditions to database queries
-- **Simplifies** actions and components
-- **Enables** easy testing of permissions
-- **Prevents** data leaks by filtering at the query level
-
-Our ABAC implementation is now:
-
-- ✅ Type-safe
-- ✅ Field-level permissions
-- ✅ Environment-aware (time-based rules)
-- ✅ Clean architecture
-- ✅ Database-efficient

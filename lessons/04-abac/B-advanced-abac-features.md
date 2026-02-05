@@ -2,7 +2,7 @@
 title: "Advanced ABAC Features"
 ---
 
-Our basic ABAC system works, but many real world applications need more sophisticated features. Let's add **field-level permissions** and environment-based rules.
+Our basic ABAC system works, but many real world applications need more sophisticated features. Let's add **field-level permissions**, environment-based rules, and automatic database filtering.
 
 ## New Requirements
 
@@ -17,7 +17,7 @@ Different roles should see different fields on documents:
 | `title`          | ✅    | ✅     | ✅     | ✅     |
 | `content`        | ✅    | ✅     | ✅     | ✅     |
 | `status`         | ✅    | ✅     | ✅     | ✅     |
-| `isLocked`       | ✅    | ✅     | ✅     | ❌     |
+| `isLocked`       | ✅    | ✅     | ✅     | ✅     |
 | `creatorId`      | ✅    | ✅     | ✅     | ❌     |
 | `lastEditedById` | ✅    | ✅     | ✅     | ❌     |
 | `createdAt`      | ✅    | ✅     | ✅     | ❌     |
@@ -40,7 +40,11 @@ Authors can write content but can't change document status or lock documents.
 
 Since this company values work-life balance, editors and authors are not allowed to make changes on weekends which is an example of an **environment-based** rule that uses attributes from neither the user nor the resource.
 
-## Implementing Environment Based Rules
+### 4. Automatic Database Filtering
+
+To make our authorization system more DRY and cleaner, we can automatically filter database queries based on the user's permissions. This ensures that users only see the documents/projects they are allowed to access without having to duplicate permissions in queries and our policy engine.
+
+## 1. Implementing Environment Based Rules
 
 Adding environment-based rules is straightforward. We can just check the current day in our permission builder and use that to filter which permissions we allow:
 
@@ -58,9 +62,9 @@ if (!isWeekend) {
 }
 ```
 
-## Implementing Field-Level Permissions
+## 2. Implementing Field-Level Permissions
 
-Field level permissions are much more complicated to implement. This is mostly because consuming field level permissions requires lots of code. Implementing field level checks in our policy engine is actually quite easy.
+Field level permissions are much more complicated to implement. This is mostly because consuming field level permissions requires lots of code. Implementing field level checks in our policy engine is actually pretty easy.
 
 ### Extending the Permission API
 
@@ -117,27 +121,30 @@ We need to update all the following locations:
 
 Let's do that now.
 
-## The Power of ABAC
+## 3. Implementing Automatic Database Filtering
 
-Notice what we can now express:
+Since our ABAC conditions are just JavaScript objects of simple conditional checks, we can easily convert them into SQL `WHERE` clauses:
 
-```typescript
-// "Authors can read the createdAt field only on documents they created"
-permissions.can("document", "read", { creatorId: user.id }, "createdAt")
+![ABAC to SQL](/fem-permission-systems-that-scale/images/04-abac/abac-to-sql.svg)
 
-// "Editors can update status on unlocked documents"
-permissions.can("document", "update", { isLocked: false }, "status")
+This can get complicated when dealing with multiple conditions and various combinations of permissions, but once you get the base layer down adding new conditions is pretty simple.
+
+This is powerful because:
+
+- We only fetch data the user can see
+- The database does the filtering (efficient!)
+- No chance of data leaks from forgetting a filter
+
+## Branch Checkpoint
+
+After completing this lesson, your code should match:
+
+```text
+Branch: 6-abac-advanced
 ```
 
-These complex, conditional, field-level permissions are natural in ABAC but would require an explosion of permission strings in RBAC which is impossible to manage.
+Run the following to sync up:
 
-## What's Next
-
-Our ABAC system is powerful, but we still have permission checks scattered throughout:
-
-- Page components
-- Server actions
-- Mutations
-- Query functions
-
-In the next lesson, we'll create a **services layer** that centralizes all authorization logic and even converts permissions to database queries automatically.
+```bash
+git checkout 6-abac-advanced
+```

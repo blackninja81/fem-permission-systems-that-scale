@@ -2,14 +2,7 @@
 title: "The Case for Better Architecture"
 ---
 
-Now that we've fixed the immediate security issues, let's reflect on what we've done and why it's still not good enough.
-
-## What We Fixed
-
-✅ Pages now check permissions on the server  
-✅ Users can't access resources by guessing URLs  
-✅ Server actions validate permissions before executing  
-✅ UI and server permissions are aligned
+We have now successfully centralized our authorization logic into a services layer, but we still have many issues to address.
 
 ## What's Still Wrong
 
@@ -20,25 +13,20 @@ Despite our fixes, the codebase has fundamental problems that will only get wors
 Count how many times this exact pattern appears:
 
 ```typescript
-if (
-  user.role !== "admin" &&
-  project.department != null &&
-  user.department !== project.department
-) {
-  return redirect("/")
+if (user == null || user.role !== "admin") {
+  // Redirect/Error
 }
 ```
 
-If we add a new rule (e.g., "managers can access any department"), we need to find and update **every occurrence**. Miss one? Security vulnerability.
+If we add a new rule (e.g., "managers can create/edit projects"), we need to find and update **every occurrence**. Miss one? Security vulnerability.
 
 ### 2. No Single Source of Truth
 
 Where do you go to understand "who can create a document"? There's no clear answer:
 
 - The page component has a check
-- The server action has a check
+- The service layer has a check
 - The UI conditionally renders buttons
-- The data access layer has a check
 
 Each place has its own version of the "truth."
 
@@ -69,10 +57,9 @@ Imagine we need to add a new rule: "Documents can be marked as 'confidential' an
 With the current architecture, we'd need to:
 
 1. Update every edit page
-2. Update every edit action
-3. Update the mutation layer
-4. Update all the UI conditionals
-5. Hope we didn't miss anything
+2. Update every edit service layer function
+3. Update all the UI conditionals
+4. Hope we didn't miss anything
 
 ## Key Takeaways
 
