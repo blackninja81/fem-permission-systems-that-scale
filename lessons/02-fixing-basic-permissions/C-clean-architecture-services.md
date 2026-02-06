@@ -55,8 +55,9 @@ export async function createDocumentService(
   if (user == null) throw new Error("Unauthenticated")
 
   // Step 1: Authorization - can they perform this action?
-  const permissions = await getUserPermissions()
-  if (!permissions.can("document", "create")) throw new AuthorizationError()
+  if (user.role !== "admin" && user.role !== "author") {
+    throw new AuthorizationError()
+  }
 
   // Step 2: Validation - is the data valid?
   const result = documentSchema.safeParse(data)

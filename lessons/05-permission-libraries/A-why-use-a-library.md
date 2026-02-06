@@ -157,28 +157,6 @@ p, editor, document, update
 
 Casbin's approach is much harder to parse until you learn the language around it, but it is more flexible since you can use it across multiple languages and services.
 
-## Which Should You Choose?
-
-| Factor             | In-Code (CASL)          | DSL (Casbin)           |
-| ------------------ | ----------------------- | ---------------------- |
-| **Learning curve** | Easy if you know JS     | Must learn new syntax  |
-| **Type safety**    | Full TypeScript support | Limited                |
-| **Policy updates** | May require a redeploy  | Can update dynamically |
-| **Multi-service**  | Harder to share         | Built for this         |
-| **Debugging**      | Same tools              | Harder                 |
-
-**Choose in-code (CASL) when:**
-
-- Your app is monolithic or has few services that use other languages
-- You want maximum type safety
-- Your team is JavaScript/TypeScript focused
-
-**Choose DSL (Casbin) when:**
-
-- You have multiple services sharing policies across different languages
-- You need to update policies without deploying
-- You have a security team managing policies
-
 ## What's Next
 
 In the next lesson, we'll dive deeper into how to implement CASL in our existing application.

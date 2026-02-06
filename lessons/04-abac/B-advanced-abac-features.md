@@ -115,9 +115,8 @@ Adding support for field permissions takes a little bit of TypeScript wizardry a
 We need to update all the following locations:
 
 1. Forms
-2. Actions
-3. Schemas
-4. Display pages
+2. Schemas
+3. Display pages
 
 Let's do that now.
 

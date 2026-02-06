@@ -18,11 +18,11 @@ This differs from our current implementation since we are defining specific perm
 
 A typical RBAC implementation has three components:
 
-| Component       | Description                            | Example                                 |
-| --------------- | -------------------------------------- | --------------------------------------- |
-| **Users**       | The people using your system           | Alice, Bob                              |
-| **Roles**       | Named groups of permissions            | admin, editor, viewer                   |
-| **Permissions** | Specific actions that can be performed | document:create, document:deleteproject |
+| Component       | Description                            | Example                          |
+| --------------- | -------------------------------------- | -------------------------------- |
+| **Users**       | The people using your system           | Alice, Bob                       |
+| **Roles**       | Named groups of permissions            | admin, editor, viewer            |
+| **Permissions** | Specific actions that can be performed | document:create, document:delete |
 
 ![RBAC Flow](/fem-permission-systems-that-scale/images/03-rbac/rbac-flow.svg)
 
