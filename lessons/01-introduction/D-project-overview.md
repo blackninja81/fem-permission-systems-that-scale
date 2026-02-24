@@ -7,6 +7,10 @@ description: "Understanding the demo application's data model, user roles, and h
 
 Before we start building permission systems, let's understand the application we're working with. It's a simple document management system with users, projects, and documents.
 
+## Code Walkthrough
+
+Let's take a minute to look through all the code and the actual application to see how everything fits together.
+
 ## The Data Model
 
 Our application has three main entities with clear relationships:
