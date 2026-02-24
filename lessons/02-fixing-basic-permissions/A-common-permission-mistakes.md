@@ -62,7 +62,7 @@ We can do this in multiple different ways, and if we don't create a central plac
 
 Even worse, some places might accidentally miss a condition or check the wrong roles.
 
-This problems with this are that the permission logic is:
+The problems with this are that the permission logic is:
 
 - **Duplicated** across multiple files
 - **Error-prone** (easy to miss a condition)
