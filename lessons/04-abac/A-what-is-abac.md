@@ -91,6 +91,16 @@ Let's implement a simple ABAC system into our project. This system will follow t
 
 The only additional changes we will make is adding a few database optimizations and finally ensuring that users can only access documents within projects they have access to (including creation).
 
+#### Checkpoint
+
+We just finished implementing most of the ABAC permissions file, so now it is your turn to define the remaining permissions and use them in the code.
+
+You can checkout this branch to follow along from where we are:
+
+```bash
+git checkout 5.5-basic-abac-checkpoint
+```
+
 ## What We Gain
 
 | Benefit                    | Description                                                  |
