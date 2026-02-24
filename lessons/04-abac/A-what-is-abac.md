@@ -89,7 +89,7 @@ permissions.can("document", "update", document) // Checks all conditions!
 
 Let's implement a simple ABAC system into our project. This system will follow the exact same policies of our current RBAC system.
 
-The only additional changes we will make is adding a few database optimizations and finally ensuring that users can only access documents within projects they have access to (including creation).
+The only additional changes we will make are adding a few database optimizations and finally ensuring users can only create/edit documents within projects they have access to.
 
 #### Checkpoint
 
