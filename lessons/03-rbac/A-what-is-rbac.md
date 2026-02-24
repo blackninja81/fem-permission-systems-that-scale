@@ -108,6 +108,16 @@ if (!can(user, "project:delete")) {
 
 Let's implement a simple RBAC system into our project.
 
+### Checkpoint
+
+We just finished implementing the RBAC permissions file, so now it is your turn to use these permissions in our application.
+
+You can checkout this branch to follow along from where we are:
+
+```bash
+git checkout 3.5-basic-rbac-checkpoint
+```
+
 ## What We Gain
 
 After this refactor:
