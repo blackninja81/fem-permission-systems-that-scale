@@ -18,8 +18,8 @@ Different roles should see different fields on documents:
 | `content`        | ✅    | ✅     | ✅     | ✅     |
 | `status`         | ✅    | ✅     | ✅     | ✅     |
 | `isLocked`       | ✅    | ✅     | ✅     | ✅     |
-| `creatorId`      | ✅    | ✅     | ✅     | ❌     |
-| `lastEditedById` | ✅    | ✅     | ✅     | ❌     |
+| `creatorId`      | ✅    | ✅     | ✅     | ✅     |
+| `lastEditedById` | ✅    | ✅     | ✅     | ✅     |
 | `createdAt`      | ✅    | ✅     | ✅     | ❌     |
 | `updatedAt`      | ✅    | ✅     | ✅     | ❌     |
 
