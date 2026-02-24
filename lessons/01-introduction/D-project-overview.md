@@ -11,6 +11,8 @@ Before we start building permission systems, let's understand the application we
 
 Let's take a minute to look through all the code and the actual application to see how everything fits together.
 
+This project is a Next.js and TypeScript project, but you don't need to know any React or Next.js to follow along with this project. 95% of the code we write will be pure TypeScript and we will only touch React a few times for UI specific permissions.
+
 ## The Data Model
 
 Our application has three main entities with clear relationships:
