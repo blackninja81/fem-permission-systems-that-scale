@@ -59,6 +59,10 @@ export default async function DocumentDetailPage({ params }) {
 }
 ```
 
+## Implementation
+
+Let's implement these fixes into our system.
+
 ## The Problem With This System
 
 As we add these checks, notice how we're:
