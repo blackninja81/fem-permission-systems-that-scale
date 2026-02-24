@@ -62,6 +62,8 @@ if (!isWeekend) {
 }
 ```
 
+Let's implement this rule now.
+
 ## 2. Implementing Field-Level Permissions
 
 Field level permissions are much more complicated to implement. This is mostly because consuming field level permissions requires lots of code. Implementing field level checks in our policy engine is actually pretty easy.
@@ -133,6 +135,8 @@ This is powerful because:
 - We only fetch data the user can see
 - The database does the filtering (efficient!)
 - No chance of data leaks from forgetting a filter
+
+Let's implement this now.
 
 ## Branch Checkpoint
 
