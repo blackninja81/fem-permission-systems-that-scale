@@ -117,6 +117,10 @@ export function canUpdateDocument(
 }
 ```
 
+### Implementation
+
+Let's implement these more complex permissions into our RBAC system.
+
 ## What Went Wrong?
 
 Notice the problems:
