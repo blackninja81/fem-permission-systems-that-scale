@@ -118,13 +118,13 @@ git checkout 5.5-basic-abac-checkpoint
 After completing this conversion, your code should match:
 
 ```text
-Branch: 6-abac-basic
+Branch: 6-basic-abac
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 6-abac-basic
+git checkout 6-basic-abac
 ```
 
 ## What's Next
