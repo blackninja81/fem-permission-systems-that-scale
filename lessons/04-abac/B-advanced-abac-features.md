@@ -143,11 +143,11 @@ Let's implement this now.
 After completing this lesson, your code should match:
 
 ```text
-Branch: 7-abac-advanced
+Branch: 7-advanced-abac
 ```
 
 Run the following to sync up:
 
 ```bash
-git checkout 7-abac-advanced
+git checkout 7-advanced-abac
 ```
